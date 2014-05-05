@@ -1,8 +1,11 @@
 package tddmicroexercises.braking;
 
-public class BrakingCalculation {
+public final class BrakingCalculation {
 
   private static final double ONE_TENTH_OF_A_SECOND = .1;
+
+  private BrakingCalculation() {
+  }
 
   public static double calculateKineticEnergy(double velocity, double mass) {
     return mass * velocity * velocity / 2;
@@ -26,9 +29,7 @@ public class BrakingCalculation {
   }
 
   public static double updatedVelocity(double velocity, double mass, Brake brake) {
-    double energyDissipated = brake.powerDissipation(velocity);
-
-    double currentKineticEnergy = calculateKineticEnergy(velocity, mass) - energyDissipated;
+    double currentKineticEnergy = calculateKineticEnergy(velocity, mass) - brake.powerDissipation(velocity);
     if (currentKineticEnergy < 0) {
       return 0;
     } else {
