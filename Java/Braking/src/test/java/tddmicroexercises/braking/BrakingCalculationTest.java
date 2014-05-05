@@ -24,7 +24,17 @@ public class BrakingCalculationTest {
   }
 
   @Test
+  public void stopping_distance_with_speed() {
+    assertEquals(1.2, BrakingCalculation.calculateStoppingDistance(12.0, 700.0, new Brake()), DELTA);
+  }
+
+  @Test
   public void update_velocity() {
     assertEquals(45.5, BrakingCalculation.updatedVelocity(50, 700.0, new Brake()), DELTA);
+  }
+
+  @Test
+  public void Given_Negative_Velocity_Then_Updated_Velocity_Should_Be_Positive_Velocity() {
+    assertEquals(3.09, BrakingCalculation.updatedVelocity(-1.0, 700.0, new Brake()), DELTA);
   }
 }

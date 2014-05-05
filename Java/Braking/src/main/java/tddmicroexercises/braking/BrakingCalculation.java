@@ -15,8 +15,9 @@ public final class BrakingCalculation {
     return Math.sqrt(2 * energy / mass);
   }
 
-  public static double calculateStoppingDistance(double velocity, double mass, Brake brake) {
+  public static double calculateStoppingDistance(double velocityAtBrakePoint, double mass, Brake brake) {
     double distance = 0;
+    double velocity = velocityAtBrakePoint;
     while (velocity > 0) {
       double updatedVelocity = updatedVelocity(velocity, mass, brake);
       if (updatedVelocity < 0) {
@@ -29,11 +30,11 @@ public final class BrakingCalculation {
   }
 
   public static double updatedVelocity(double velocity, double mass, Brake brake) {
-    double currentKineticEnergy = calculateKineticEnergy(velocity, mass) - brake.powerDissipation(velocity);
-    if (currentKineticEnergy < 0) {
+    double kineticEnergy = calculateKineticEnergy(velocity, mass) - brake.powerDissipation(velocity);
+    if (kineticEnergy < 0) {
       return 0;
     } else {
-      return calculateVelocity(currentKineticEnergy, mass);
+      return calculateVelocity(kineticEnergy, mass);
     }
   }
 }
