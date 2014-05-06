@@ -23,6 +23,11 @@ public class TestAlarm {
     checkAlarmIsOffForPressurePsiValues(18, 19, 20, 21);
   }
 
+  @Test
+  public void Alarm_Is_On_When_Psi_Pressure_Value_Is_Above_Highest_Threshold() {
+    checkAlarmIsOnForPressurePsiValues(22, 23, 100);
+  }
+
   private void checkAlarmIsOnForPressurePsiValues(int... pressurePsiValues) {
     checkAlarmForPressurePsiValues(new AlarmChecker() {
       @Override
