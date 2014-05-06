@@ -17,8 +17,7 @@ public class Alarm {
   }
 
   public void check() {
-    double psiPressureValue = sensor.getPressurePsiValue();
-    if (psiPressureValue < pressurePsiThresholds.lowest || pressurePsiThresholds.highest < psiPressureValue) {
+    if (pressurePsiThresholds.isOutOfRange(sensor.getPressurePsiValue())) {
       enableAlarm();
     } else {
       disableAlarm();

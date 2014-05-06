@@ -16,4 +16,9 @@ public class PressurePsiThresholds {
   public PressurePsiThresholds() {
     this(LOW_PRESSURE_THRESHOLD, HIGH_PRESSURE_THRESHOLD);
   }
+
+  public boolean isOutOfRange(double psiPressureValue) {
+    return psiPressureValue < lowest ||
+           psiPressureValue > highest;
+  }
 }
