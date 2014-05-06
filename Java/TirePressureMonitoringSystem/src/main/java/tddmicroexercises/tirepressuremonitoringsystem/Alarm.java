@@ -17,6 +17,8 @@ public class Alarm {
     double psiPressureValue = sensor.getPressurePsiValue();
     if (psiPressureValue < LOW_PRESSURE_THRESHOLD || HIGH_PRESSURE_THRESHOLD < psiPressureValue) {
       enableAlarm();
+    } else {
+      disableAlarm();
     }
   }
 
@@ -26,5 +28,9 @@ public class Alarm {
 
   private void enableAlarm() {
     alarmOn = true;
+  }
+
+  private void disableAlarm() {
+    alarmOn = false;
   }
 }

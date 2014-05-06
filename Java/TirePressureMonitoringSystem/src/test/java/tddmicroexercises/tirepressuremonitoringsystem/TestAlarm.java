@@ -19,13 +19,25 @@ public class TestAlarm {
   }
 
   @Test
+  public void Alarm_Is_On_When_Psi_Pressure_Value_Is_Above_Highest_Threshold() {
+    checkAlarmIsOnForPressurePsiValues(22, 23, 100);
+  }
+
+  @Test
   public void Alarm_Is_Off_When_Psi_Pressure_Value_Is_Between_Thresholds() {
     checkAlarmIsOffForPressurePsiValues(18, 19, 20, 21);
   }
 
   @Test
-  public void Alarm_Is_On_When_Psi_Pressure_Value_Is_Above_Highest_Threshold() {
-    checkAlarmIsOnForPressurePsiValues(22, 23, 100);
+  public void When_Alarm_Has_Been_Enabled_It_Should_Be_Possible_To_Disable_It_Again_By_Adjusting_Pressure() {
+    MockPressurePsiValueSensor sensor = new MockPressurePsiValueSensor();
+    Alarm alarm = new Alarm(sensor);
+
+    sensor.setPressurePsiValue(0);
+    checkAlarmIsOn(alarm);
+
+    sensor.setPressurePsiValue(19);
+    checkAlarmIsOff(alarm);
   }
 
   private void checkAlarmIsOnForPressurePsiValues(int... pressurePsiValues) {
