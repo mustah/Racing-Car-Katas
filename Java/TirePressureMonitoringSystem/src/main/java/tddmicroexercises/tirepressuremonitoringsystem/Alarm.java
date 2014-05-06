@@ -7,7 +7,7 @@ public class Alarm {
 
   private final Sensor sensor;
 
-  boolean alarmOn = false;
+  private boolean alarmOn;
 
   public Alarm(Sensor sensor) {
     this.sensor = sensor;
