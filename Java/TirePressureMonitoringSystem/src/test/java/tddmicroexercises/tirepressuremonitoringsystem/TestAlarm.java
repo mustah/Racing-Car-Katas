@@ -29,6 +29,14 @@ public class TestAlarm {
   }
 
   @Test
+  public void Alarm_Is_On_Given_New_Low_And_High_Thresholds() {
+    MockPressurePsiValueSensor sensor = new MockPressurePsiValueSensor();
+    sensor.setPressurePsiValue(11);
+    Alarm alarm = new Alarm(sensor, new PressurePsiThresholds(10, 15));
+    checkAlarmIsOff(alarm);
+  }
+
+  @Test
   public void When_Alarm_Has_Been_Enabled_It_Should_Be_Possible_To_Disable_It_Again_By_Adjusting_Pressure() {
     MockPressurePsiValueSensor sensor = new MockPressurePsiValueSensor();
     Alarm alarm = new Alarm(sensor);
