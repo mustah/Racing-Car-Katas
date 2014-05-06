@@ -18,12 +18,35 @@ public class TestAlarm {
     checkAlarmIsOnForPressurePsiValues(0, 1, 3, 16);
   }
 
+  @Test
+  public void Alarm_Is_Off_When_Psi_Pressure_Value_Is_Between_Thresholds() {
+    checkAlarmIsOffForPressurePsiValues(18, 19, 20, 21);
+  }
+
   private void checkAlarmIsOnForPressurePsiValues(int... pressurePsiValues) {
-    LowPressurePsiValueSensor sensor = new LowPressurePsiValueSensor();
+    checkAlarmForPressurePsiValues(new AlarmChecker() {
+      @Override
+      public void check(Alarm alarm) {
+        checkAlarmIsOn(alarm);
+      }
+    }, pressurePsiValues);
+  }
+
+  private void checkAlarmIsOffForPressurePsiValues(int... pressurePsiValues) {
+    checkAlarmForPressurePsiValues(new AlarmChecker() {
+      @Override
+      public void check(Alarm alarm) {
+        checkAlarmIsOff(alarm);
+      }
+    }, pressurePsiValues);
+  }
+
+  private void checkAlarmForPressurePsiValues(AlarmChecker alarmChecker, int... pressurePsiValues) {
+    MockPressurePsiValueSensor sensor = new MockPressurePsiValueSensor();
     Alarm alarm = new Alarm(sensor);
     for (int ppv : pressurePsiValues) {
       sensor.setPressurePsiValue(ppv);
-      checkAlarmIsOn(alarm);
+      alarmChecker.check(alarm);
     }
   }
 
@@ -37,7 +60,11 @@ public class TestAlarm {
     assertTrue(alarm.isAlarmOn());
   }
 
-  private static class LowPressurePsiValueSensor implements Sensor {
+  private static interface AlarmChecker {
+    void check(Alarm alarm);
+  }
+
+  private static class MockPressurePsiValueSensor implements Sensor {
 
     private int pressurePsiValue;
 
