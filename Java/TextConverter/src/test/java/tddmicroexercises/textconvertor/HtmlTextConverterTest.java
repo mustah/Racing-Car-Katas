@@ -26,7 +26,24 @@ public class HtmlTextConverterTest {
     assertToHtml(FILE_2, "&amp;lt;html&amp;gt;<br />&amp;lt;head&amp;gt;&amp;lt;/head&amp;gt;<br />&amp;lt;/html&amp;gt;<br />");
   }
 
+  @Test
+  public void Convert_Html_File_Wit_Line_Breaks_Should_Return_Correct_Number_Of_Line_Breaks() throws Exception {
+    assertToHtml(FILE_2, "<html><br /><head></head><br /></html><br />", new DelegatingEscapeStrategy());
+  }
+
   private void assertToHtml(String filename, String actual) throws IOException {
-    assertEquals(new HtmlTextConverter(filename).toHtml(), actual);
+    assertToHtml(filename, actual, new HtmlEscapeStrategy());
+  }
+
+  private void assertToHtml(String filename, String actual, EscapeStrategy htmlEscapeStrategy) throws IOException {
+    assertEquals(new HtmlTextConverter(filename, htmlEscapeStrategy).toHtml(), actual);
+  }
+
+  private static class DelegatingEscapeStrategy implements EscapeStrategy {
+
+    @Override
+    public String escapeHtml(String line) {
+      return line;
+    }
   }
 }
