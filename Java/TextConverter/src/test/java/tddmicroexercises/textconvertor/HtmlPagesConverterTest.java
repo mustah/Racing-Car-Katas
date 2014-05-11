@@ -7,9 +7,10 @@ import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 
 public class HtmlPagesConverterTest {
+
   @Test
   public void foo() throws IOException {
-    HtmlPagesConverter converter = new HtmlPagesConverter("foo");
-    assertEquals("fixme", converter.getFilename());
+    HtmlPagesConverter converter = new HtmlPagesConverter(FileRepository.EMPTY);
+    assertEquals(FileRepository.EMPTY, converter.getFilename());
   }
 }

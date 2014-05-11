@@ -6,26 +6,26 @@ import java.io.IOException;
 
 public class HtmlTextConverter {
 
-  private final String fullFilenameWithPath;
+  private final String filename;
 
-  public HtmlTextConverter(String fullFilenameWithPath) {
-    this.fullFilenameWithPath = fullFilenameWithPath;
+  public HtmlTextConverter(String filename) {
+    this.filename = filename;
   }
 
-  public String convertToHtml() throws IOException {
-    BufferedReader reader = new BufferedReader(new FileReader(fullFilenameWithPath));
-
-    String line = reader.readLine();
-    String html = "";
-    while (line != null) {
-      html += StringEscapeUtils.escapeHtml(line);
-      html += "<br />";
-      line = reader.readLine();
+  public String toHtml() throws IOException {
+    try (BufferedReader reader = new BufferedReader(new FileReader(filename))) {
+      String line = reader.readLine();
+      String html = "";
+      while (line != null) {
+        html += StringEscapeUtils.escapeHtml(line);
+        html += "<br />";
+        line = reader.readLine();
+      }
+      return html;
     }
-    return html;
   }
 
   public String getFilename() {
-    return this.fullFilenameWithPath;
+    return this.filename;
   }
 }

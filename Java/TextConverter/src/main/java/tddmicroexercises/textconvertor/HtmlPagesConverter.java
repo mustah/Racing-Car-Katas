@@ -13,38 +13,40 @@ public class HtmlPagesConverter {
 
   public HtmlPagesConverter(String filename) throws IOException {
     this.filename = filename;
-
     this.breaks.add(0);
-    BufferedReader reader = new BufferedReader(new FileReader(this.filename));
-    int cumulativeCharCount = 0;
-    String line = reader.readLine();
-    while (line != null) {
-      cumulativeCharCount += line.length() + 1; // add one for the newline
-      if (line.contains("PAGE_BREAK")) {
-        int page_break_position = cumulativeCharCount;
-        breaks.add(page_break_position);
-      }
-      line = reader.readLine();
-    }
-    reader.close();
+    findPageBreaks(filename);
   }
 
-  public String getHtmlPage(int page) throws IOException {
-    BufferedReader reader = new BufferedReader(new FileReader(this.filename));
-    reader.skip(breaks.get(page));
-    StringBuilder htmlPage = new StringBuilder();
-    String line = reader.readLine();
-    while (line != null) {
-      if (line.contains("PAGE_BREAK")) {
-        break;
+  private void findPageBreaks(String filename) throws IOException {
+    try (BufferedReader reader = new BufferedReader(new FileReader(filename))) {
+      int cumulativeCharCount = 0;
+      String line = reader.readLine();
+      while (line != null) {
+        cumulativeCharCount += line.length() + 1; // add one for the newline
+        if (line.contains("PAGE_BREAK")) {
+          breaks.add(cumulativeCharCount);
+        }
+        line = reader.readLine();
       }
-      htmlPage.append(StringEscapeUtils.escapeHtml(line));
-      htmlPage.append("<br />");
-
-      line = reader.readLine();
     }
-    reader.close();
-    return htmlPage.toString();
+  }
+
+  public String getHtmlForPageAt(int page) throws IOException {
+    try (BufferedReader reader = new BufferedReader(new FileReader(filename))) {
+      reader.skip(breaks.get(page));
+      StringBuilder htmlPage = new StringBuilder();
+      String line = reader.readLine();
+      while (line != null) {
+        if (line.contains("PAGE_BREAK")) {
+          break;
+        }
+        htmlPage.append(StringEscapeUtils.escapeHtml(line));
+        htmlPage.append("<br />");
+
+        line = reader.readLine();
+      }
+      return htmlPage.toString();
+    }
   }
 
   public String getFilename() {
