@@ -24,8 +24,4 @@ public class HtmlTextConverter {
       return html;
     }
   }
-
-  public String getFilename() {
-    return this.filename;
-  }
 }
