@@ -4,13 +4,12 @@ import java.io.IOException;
 
 import org.junit.Test;
 
-import static org.junit.Assert.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class HtmlPagesConverterTest {
 
   @Test
   public void foo() throws IOException {
-    HtmlPagesConverter converter = new HtmlPagesConverter(FileRepository.EMPTY);
-    assertEquals(FileRepository.EMPTY, converter.getFilename());
+    assertThat(FileRepository.EMPTY).isEqualTo(new HtmlPagesConverter(FileRepository.EMPTY).getFilename());
   }
 }

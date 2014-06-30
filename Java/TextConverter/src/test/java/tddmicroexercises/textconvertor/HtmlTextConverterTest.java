@@ -4,7 +4,7 @@ import java.io.IOException;
 
 import org.junit.Test;
 
-import static org.junit.Assert.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 import static tddmicroexercises.textconvertor.FileRepository.EMPTY;
 import static tddmicroexercises.textconvertor.FileRepository.FILE_1;
 import static tddmicroexercises.textconvertor.FileRepository.FILE_2;
@@ -36,7 +36,7 @@ public class HtmlTextConverterTest {
   }
 
   private void assertToHtml(String filename, String actual, EscapeStrategy htmlEscapeStrategy) throws IOException {
-    assertEquals(new HtmlTextConverter(filename, htmlEscapeStrategy).toHtml(), actual);
+    assertThat(actual).isEqualTo(new HtmlTextConverter(filename, htmlEscapeStrategy).toHtml());
   }
 
   private static class DelegatingEscapeStrategy implements EscapeStrategy {
